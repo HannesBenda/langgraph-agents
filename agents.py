@@ -33,7 +33,8 @@ def create_planner_agent(llm, index, prompt, local_repo):
             f"Do not add any other response data besides the described key-value pairs.\n\n"
             # File not found error
             f"It is possible that the file required to fix the error does not exist.\n"
-            f"ONLY In this case you need to identify which is the most likely path where the file should be created at.\n"
+            f"Make sure that you scanned the whole project before deeming the missing.\n"
+            f"ONLY if the file was not found you need to identify which is the most likely path where the file should be created at.\n"
             f"Then you give 'proposed_file_path' this path and 'file_content' the code that should be added to the file.\n\n"
             # give the repository information
             f"Work in the directory: repo_{index}. This is a Git repository.\n"

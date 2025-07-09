@@ -3,7 +3,6 @@ import re
 import subprocess
 import requests
 import json
-import git
 
 def fetch_test_case(api_url: str) -> dict:
     """

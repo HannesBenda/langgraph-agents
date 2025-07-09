@@ -10,9 +10,15 @@ import agents
 API_URL = "http://localhost:8081/task/index/"
 LOG_FILE = "results.log"
 
-llm = ChatOpenAI(
+mini_llm = ChatOpenAI(
     base_url="http://188.245.32.59:4000/v1",
     model="gpt-4o-mini",
+    temperature=0.1
+)
+
+main_llm = ChatOpenAI(
+    base_url="http://188.245.32.59:4000/v1",
+    model="gpt-4o",
     temperature=0.1
 )
 
@@ -36,13 +42,13 @@ async def run_agents(index):
         except Exception as e:
             print(f"Git repo is already cloned")
         
-        planner_agent = agents.create_planner_agent(llm, index, prompt, local_repo)
-        coder_agent = agents.create_coder_agent(llm)
+        planner_agent = agents.create_planner_agent(mini_llm, index, prompt, local_repo)
+        coder_agent = agents.create_coder_agent(mini_llm)
 
         # Create supervisor workflow
         workflow = create_supervisor(
                 [planner_agent, coder_agent],
-                model=llm,
+                model=mini_llm,
                 #tools=[],
                 prompt=(
                     f"You are the supervisor of a planner and a coder agent.\n"
@@ -99,7 +105,7 @@ async def run_agents(index):
 
 
 async def main():
-    for i in range(1,10):
+    for i in range(1,31):
         await run_agents(i)
 
 if __name__ == "__main__":
